@@ -1,0 +1,76 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "D:\\BillTech\\Test\\contracts\\ERC20.sol": {
+      "lastModificationDate": 1667236372341,
+      "contentHash": "c59a38583606332dd1249208ba4a10ec",
+      "sourceName": "contracts/ERC20.sol",
+      "solcConfig": {
+        "version": "0.8.9",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ERC20"
+      ]
+    },
+    "D:\\BillTech\\Test\\contracts\\Verifier.sol": {
+      "lastModificationDate": 1667237963002,
+      "contentHash": "5aa313bc9a3f790eadfd4a61b9052b01",
+      "sourceName": "contracts/Verifier.sol",
+      "solcConfig": {
+        "version": "0.8.9",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC20",
+        "Verifier"
+      ]
+    }
+  }
+}
