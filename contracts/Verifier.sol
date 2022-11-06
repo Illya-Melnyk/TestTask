@@ -11,15 +11,13 @@ interface IERC20 {
 /// @notice You can use this contract for checking of the signed message on server to claim tokens from contract
 contract Verifier {
     address ERC20 = 0x1a7c57634DB85F84684350C7b74A73169B7c908C;
-        
     IERC20 token = IERC20(ERC20);
-       
-    mapping(address => uint) public nonce;
-        
-    mapping(bytes32 => address) public sigHash;
-        
-    bool public paused;
 
+    mapping(address => uint) public nonce;
+    mapping(bytes32 => address) public sigHash;
+    mapping(bytes32 => bool) public paid;
+
+    bool public paused;
     address public owner;
 
     event Pay(
@@ -91,6 +89,7 @@ contract Verifier {
         
         token.transfer(to, premiumSum);
         nonce[msg.sender]++;
+        paid[check] = true;
 
         emit Pay(
             to, 
