@@ -20,6 +20,8 @@ task("accounts", "Prints the list of accounts", async () => {
 module.exports = {
   defaultNetwork: "testnet",
   networks: {
+    hardhat: {
+    },
     testnet: {
       url: "https://data-seed-prebsc-1-s1.binance.org:8545",
       chainId: 97,

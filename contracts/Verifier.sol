@@ -1,60 +1,101 @@
-    //SPDX-License-Identifier: MIT
+//SPDX-License-Identifier: MIT
 
-    pragma solidity ^0.8.0;
+pragma solidity ^0.8.0;
 
-    interface IERC20 {
-        function transfer(address to, uint256 amount) external;
+interface IERC20 {
+    function transfer(address to, uint256 amount) external;
+}
+
+/// @title Verifier for a signed message
+/// @author Illya Melnyk
+/// @notice You can use this contract for checking of the signed message on server to claim tokens from contract
+contract Verifier {
+    address ERC20 = 0x1a7c57634DB85F84684350C7b74A73169B7c908C;
+        
+    IERC20 token = IERC20(ERC20);
+       
+    mapping(address => uint) public nonce;
+        
+    mapping(bytes32 => address) public sigHash;
+        
+    bool public paused;
+
+    address public owner;
+
+    event Pay(
+        address indexed _to, 
+        bytes32 indexed _signature, 
+        uint _premium
+    );
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Not an owner");
+        _;
     }
 
-    contract Verifier {
+    constructor() {
+        owner = msg.sender;
+    }
 
-        address ERC20 = 0x8f545A4119bEb3C2c80b25E2331a235ED3dfe91F;
-        
-        IERC20 token = IERC20(ERC20);
-        
-        mapping (address => uint) public nonce;
-        
-        mapping (address => bytes32) public hash;
+    /// @notice Change the token that currently used for payments
+    /// @param tokenContract Address of token contract used for payments
+    function changeToken(address tokenContract) external onlyOwner {
+        ERC20 = tokenContract;
+    }
 
-        bool public paused;
+    /// @notice Set pause for contract
+    /// @dev Sets bool option for paused variable to true
+    function pause() external onlyOwner {
+        paused = true;
+    }
+    /// @notice Unset pause for contract
+    /// @dev Sets bool option for paused variable to false
+    function unpause() external onlyOwner {
+        paused = false;
+    }
 
-        event pay(address indexed _to, uint _premium);
+    /// @notice Returns nonce of user stored in contract
+    /// @param user Address of user whose nonce will be returned
+    /// @dev Needed for sign generation algorithm
+    function getNonce(address user) external view returns(uint) {
+        return nonce[user];
+    }
 
-        function verifyString(uint _premiumSum, uint8 _v, bytes32 _r, bytes32 _s) public {
-        
+    /// @notice Converts inputed arguments into hash and compares address from retrieved data with address who called function
+    /// and if addresses matches transfers specified amount of tokens
+    /// @param premiumSum Amount of tokens that will be payed
+    /// @param v Value for the signature
+    /// @param r Value for the signature
+    /// @param s Value for the signature
+    /// @dev Additionally address of token contract needed for function's proper work
+    function verifyString(
+        uint premiumSum, 
+        uint8 v, 
+        bytes32 r, 
+        bytes32 s
+    ) 
+        public 
+    {
         require(!paused, "Paused!");
-        
         address to = msg.sender;
-
-        bytes32 hashData = keccak256(abi.encode(to, _premiumSum));
-
+        bytes32 hashData = keccak256(abi.encode(to, premiumSum));
         string memory header = "\x19Ethereum Signed Message:\n32";
-        
-        bytes32 check = keccak256(abi.encodePacked(header, hashData));
-        
-        require(check != hash[msg.sender], "Hash already exists");
-        
-        hash[msg.sender] = check;
+        bytes32 check = keccak256(abi.encodePacked(header, hashData, nonce[msg.sender]));
 
-        address signer = ecrecover(check, _v, _r, _s);
+        require(sigHash[check]!= msg.sender, "Hash already exists");
+
+        sigHash[check] = msg.sender;
+        address signer = ecrecover(check, v, r, s);
 
         require(signer == to, "Wrong signer");
         
-        token.transfer(to, _premiumSum);
+        token.transfer(to, premiumSum);
         nonce[msg.sender]++;
 
-        emit pay(to, _premiumSum);
+        emit Pay(
+            to, 
+            check, 
+            premiumSum
+        );
     }
-
-        function changeToken (address tokenContract) external {
-            ERC20 = tokenContract;
-        }
-
-        function pause() external {
-          paused = true;
-        }
-
-        function unpause() external {
-          paused = false;
-        }
 }
