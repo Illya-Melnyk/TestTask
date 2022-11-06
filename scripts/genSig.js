@@ -33,7 +33,7 @@ module.exports = {
               "type": "uint256"
             }
           ],
-          "name": "pay",
+          "name": "Pay",
           "type": "event"
         },
         {
@@ -63,25 +63,6 @@ module.exports = {
               "internalType": "uint256",
               "name": "",
               "type": "uint256"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [
-            {
-              "internalType": "bytes32",
-              "name": "",
-              "type": "bytes32"
-            }
-          ],
-          "name": "hash",
-          "outputs": [
-            {
-              "internalType": "address",
-              "name": "",
-              "type": "address"
             }
           ],
           "stateMutability": "view",
@@ -120,6 +101,25 @@ module.exports = {
           "type": "function"
         },
         {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "",
+              "type": "bytes32"
+            }
+          ],
+          "name": "paid",
+          "outputs": [
+            {
+              "internalType": "bool",
+              "name": "",
+              "type": "bool"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
           "inputs": [],
           "name": "pause",
           "outputs": [],
@@ -140,6 +140,25 @@ module.exports = {
           "type": "function"
         },
         {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "",
+              "type": "bytes32"
+            }
+          ],
+          "name": "sigHash",
+          "outputs": [
+            {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
           "inputs": [],
           "name": "unpause",
           "outputs": [],
@@ -150,22 +169,22 @@ module.exports = {
           "inputs": [
             {
               "internalType": "uint256",
-              "name": "_premiumSum",
+              "name": "premiumSum",
               "type": "uint256"
             },
             {
               "internalType": "uint8",
-              "name": "_v",
+              "name": "v",
               "type": "uint8"
             },
             {
               "internalType": "bytes32",
-              "name": "_r",
+              "name": "r",
               "type": "bytes32"
             },
             {
               "internalType": "bytes32",
-              "name": "_s",
+              "name": "s",
               "type": "bytes32"
             }
           ],
