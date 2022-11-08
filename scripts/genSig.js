@@ -3,7 +3,7 @@ const { ethers, hardhatArguments } = require ('hardhat');
 module.exports = {
     generateSignature: async function (privateKey, userAddress) {
 
-    const contractAddress = "0xa85233C63b9Ee964Add6F2cffe00Fd84eb32338f";
+    const contractAddress = "0xdf79895f63F48eCB44d12513f30E1DC0dA1B0107";
 
     const verifierABI = [
         {
