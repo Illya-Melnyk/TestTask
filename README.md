@@ -4,4 +4,4 @@ For properly usage these steps are needed:
 2. In terminal run "node sig.js" and go to link, after that, signature will be returned in terminal
 3. Paste premium sum and signatures in function call from contract.
 
-Contract address: 0xfD41E4074F06686C50613db5Aa50894C90c71260
+Contract address: 0x222e1aA79EE7862d103bf07188e583Ecb72B03bf
