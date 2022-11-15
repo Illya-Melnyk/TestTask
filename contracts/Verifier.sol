@@ -97,20 +97,4 @@ contract Verifier {
             premiumSum
         );
     }
-
-    function getSigner(
-        uint premiumSum, 
-        uint8 v, 
-        bytes32 r, 
-        bytes32 s
-    ) external 
-    view 
-    returns(address) {
-        address to = msg.sender;
-        bytes32 hashData = keccak256(abi.encode(to, premiumSum, nonce[msg.sender]));
-        string memory header = "\x19Ethereum Signed Message:\n32";
-        bytes32 check = keccak256(abi.encodePacked(header, hashData));
-        address signer = ecrecover(check, v, r, s);
-        return signer;
-    }
 }
